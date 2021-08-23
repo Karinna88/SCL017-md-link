@@ -1,6 +1,6 @@
 # Markdown Links
 
-![Logo](/images/cadenas.png)
+![Logo](/images/cadenas.jpg)
 ## Índice
 
 * [1. Objetivo del Proyecto](#1-Objetivo-del-Proyecto)
