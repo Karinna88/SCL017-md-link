@@ -18,8 +18,8 @@ Crear una herramienta usando `Node.js`, que lea y analice archivos en formato `M
 
 ***
 ## 2.Especificaciones Técnicas
+
 | **Lenguajes**              |
-| -----------------          |
 | JavaScript ES6             | 
 | **Ejecución**              | 
 | Node.js                    | 
@@ -35,7 +35,7 @@ Crear una herramienta usando `Node.js`, que lea y analice archivos en formato `M
 ***
 ## 3. Diagrama de Flujo
 
-![Diagrama](/diagrama.png)
+![Diagrama](/images/diagrama.png)
 
 ***
 
