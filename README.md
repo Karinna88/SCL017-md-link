@@ -19,7 +19,8 @@ Crear una herramienta usando `Node.js`, que lea y analice archivos en formato `M
 ***
 ## 2.Especificaciones Técnicas
 
-| **Lenguajes**              |
+| Lenguajes                  |
+| -----------------          |
 | JavaScript ES6             | 
 | **Ejecución**              | 
 | Node.js                    | 
@@ -53,7 +54,7 @@ npm install
 Para hacer uso de la librería ejecuta el siguiente comando en la terminal:
 ```
 
-| Opciones           | Comando                |
+| Opciones          | Comando                |
 | ----------------- | ----------------------- |
 | Estatus           | --stats                 |
 | Validar           | --validate              |
