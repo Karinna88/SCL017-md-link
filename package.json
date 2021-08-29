@@ -2,6 +2,7 @@
   "name": "md-links",
   "version": "0.1.0",
   "dependencies": {
+    "give-me-a-joke": "^0.5.1",
     "node-fetch": "^2.6.1"
   },
   "description": "libreria que lee y analiza archivos MD",
