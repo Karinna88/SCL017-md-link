@@ -3,9 +3,11 @@
 //STAT: si el archivo es un directorio o un archivo, usandostats.isFile()ystats.isDirectory()
 
 const fs = require("fs");
-const fetch = require('node-fetch');
+const fetch = require("node-fetch");
 const ruta = process.argv[2];
 
+
+// Stat entrega información sobre lo que se esta leyendo
 fs.stat(ruta, (err, stats) => {
   if (err) {
     console.log(err);
@@ -20,53 +22,66 @@ fs.stat(ruta, (err, stats) => {
   }
 });
 
+// Función que lee el archivo, contenido
 const mdArchivo = (archivo) => {
   fs.readFile(archivo, "utf-8", (err, data) => {
-    const expRegular = /\[([^\]]+)]\((https?:\/\/[^\s)]+)\)/g; //exp.reg. para encontrar links
-    let iterador = data.matchAll(expRegular);
+    let arrayObjLinks = getLinksFile(data);
     let linkList = [];
 
-    for (let url of iterador) {
-      linkList.push({ 
-        href: url[2],
-        text: url[1],
+    for (let objUrl of arrayObjLinks) {
+     // console.log(url);
+      linkList.push({
+        href: objUrl[2],
+        text: objUrl[1],
         file: archivo, // aún esta relativo*********
       });
     }
 
-    //esto debe ir en un promesa
-
-    for (let link of linkList){
-           fetch(link.href)
-           .then(function(response) {
-             if (response.status === 200){
-                 console.log('ok');
-                 link.status = 200;
-
-             }  
-           })
-           .catch(function(err){
-             link.status = err.status;
-           })
-    }
-
-
-
     console.log(linkList);
+    validarLink(linkList);
   });
 };
 
+
+//Función para obtener links del archivo
+const getLinksFile = (data) => {
+  const expRegular = /\[([^\]]+)]\((https?:\/\/[^\s)]+)\)/g; //exp.reg. para encontrar links.
+  let arrayObjLinks = data.matchAll(expRegular); //matchAll devuelve todos los links del archivo.;
+  return arrayObjLinks;
+}
+
+
+//**Función que valida los link */
+const validarLink = (linkList) => {
+  for (let link of linkList) {
+    fetch(link.href) // fetch ya es una promesa***
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.status);
+          link.status = 200;
+        }else{
+          console.log(response.status);
+        }
+      })
+      .catch(function (err) {
+        console.log(err);
+        link.status = err.status;
+        
+      });
+  }
+};
+
+
+// Lee un directorio
 const mdDirectorio = (directorio) => {
   fs.readdir(directorio, (err, data) => {
     data.forEach((archivo) => {
       if (archivo.includes(".md")) {
         console.log(archivo);
+        mdArchivo(archivo)
       }
     });
   });
 };
-
-
-
 
 //module.exports = {};
