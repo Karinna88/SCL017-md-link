@@ -1,25 +1,39 @@
-const { rejects } = require("assert");
 const fs = require("fs");
 const fetch = require("node-fetch");
 const ruta = process.argv[2];
 // const path = require('path');
 
-//funcion mdLinks-principal*********
+//funcion mdLinks-principal
 const mdLinks = (path, options) => {
   return new Promise((resolve, rejects) => {
-    //
+    
     fileOrDirectory(path)
       .then((respuestaLink) => {
-        if (options.validate === true) {
+        // Aqui solo se esta viendo la validación de links
+        if (options.validate === true && options.stats === false) {
           validateLink(respuestaLink).then((newRespuesta) => {
             resolve(newRespuesta);
           });
-        } 
+        }
 
-        if (options.stats === true) {
-          stats(respuestaLink).then((resStats) => {
+        // Aqui solo se esta viendo estadistica
+        if (options.stats === true && options.validate === false) {
+          mdEstadisticas(respuestaLink).then((resStats) => {
             resolve(resStats);
           });
+        }
+
+        // Aquí se esta validando los links y viendo las estadisticas
+        if (options.validate === true && options.stats === true) {
+          validateLink(respuestaLink).then((resLinkValidados) => {
+            mdEstadisticas(resLinkValidados).then((resEstadistica) => {
+              resolve(resEstadistica);
+            });
+          });
+        }
+
+        if (options.validate === false && options.stats === false){
+          resolve(respuestaLink);
         }
       })
       .catch((err) => {
@@ -28,7 +42,7 @@ const mdLinks = (path, options) => {
   });
 };
 
-// función para ver si es archivo o directorio*****
+// Función para ver si es archivo o directorio
 const fileOrDirectory = (path) => {
   return new Promise((resolve, rejects) => {
     fs.stat(ruta, (err, stats) => {
@@ -36,13 +50,10 @@ const fileOrDirectory = (path) => {
         rejects(err);
       } else {
         if (stats.isFile()) {
-          //aqui se leera un archivo
           resolve(mdArchivo(path));
-          // mdArchivo(ruta);
         }
         if (stats.isDirectory()) {
           resolve("es un directorio");
-          // mdDirectorio(ruta);
         }
       }
     });
@@ -56,7 +67,6 @@ const mdArchivo = (archivo) => {
       if (err) {
         rejects(err);
       } else {
-        // resolve(data)
         let arrayObjLinks = getLinksFile(data); // esto me devuelve un array de links
 
         let linkList = [];
@@ -80,8 +90,7 @@ const getLinksFile = (data) => {
   return arrayObjLinks;
 };
 
-// //**Función que valida los link */
-
+// Función que valida los link
 const validateLink = (linkList) => {
   return new Promise((resolve, rejects) => {
     let arrayPromiseLink = linkList.map((objLink) => {
@@ -89,16 +98,15 @@ const validateLink = (linkList) => {
       return fetch(objLink.href).then((resPeticion) => {
         if (resPeticion.status === 200) {
           objLink.status = resPeticion.status;
-          objLink.response = "OK";
+          objLink.ok = "OK";
         } else if (resPeticion.status === 404) {
           objLink.status = resPeticion.status;
-          objLink.response = resPeticion.statusText;
-          objLink.response = "FAIL";
+          objLink.ok = "FAIL";
         }
       });
     });
 
-    Promise.all(arrayPromiseLink) // son muchas primesas
+    Promise.all(arrayPromiseLink) // son muchas promesas
       .then((res) => {
         resolve(linkList);
       })
@@ -108,13 +116,17 @@ const validateLink = (linkList) => {
   });
 };
 
-// Función stats****
-
-const stats = (linkList) => {
+// Función de estadisticas
+const mdEstadisticas = (linkList) => {
   return new Promise((resolve, rejects) => {
+    //  console.log(linkList);
+    let linkHref = linkList.map((objLink) => objLink.href); // mapea y genera un array solo de href
+    let linkBroken = linkList.filter((objLink) => objLink.ok == "FAIL").length;
+    let totalUnique = new Set(linkHref).size; //pasando el array y calculando el total de elementos
     let statsResult = {
-      total: 2,
-      unique: 2,
+      total: linkList.length,
+      unique: totalUnique,
+      broken: linkBroken,
     };
 
     resolve(statsResult);
