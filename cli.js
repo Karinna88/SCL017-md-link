@@ -1,4 +1,5 @@
-const path = require("path");
+#!/usr/bin/env node
+
 const { mdLinks } = require("./index.js");
 const ruta = process.argv[2];
 let options1 = process.argv[3];
@@ -32,6 +33,6 @@ if (
 console.log(options);
 mdLinks(ruta, options)
   .then((respuesta) => {
-    // console.log(respuesta)
+     console.log(respuesta)
   })
   .catch((err) => console.log(err));

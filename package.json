@@ -1,14 +1,16 @@
 {
-  "name": "md-links-karinna",
-  "version": "0.1.0",
+  "name": "karinna88-md-links",
+  "version": "1.2.0",
   "dependencies": {
-    "give-me-a-joke": "^0.5.1",
     "node-fetch": "^2.6.1"
   },
   "description": "libreria que lee y analiza archivos con extensión .md",
   "main": "index.js",
   "directories": {
     "test": "test"
+  },
+  "bin": {
+    "md-links": "./cli.js"
   },
   "devDependencies": {
     "jest": "^27.0.0",

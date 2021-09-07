@@ -1,7 +1,7 @@
 const fs = require("fs");
 const fetch = require("node-fetch");
 const ruta = process.argv[2];
-// const path = require('path');
+//const path = require('path');
 
 //funcion mdLinks-principal
 const mdLinks = (path, options) => {
@@ -31,7 +31,7 @@ const mdLinks = (path, options) => {
             });
           });
         }
-
+        // por defecto es false
         if (options.validate === false && options.stats === false){
           resolve(respuestaLink);
         }
@@ -145,4 +145,4 @@ const mdEstadisticas = (linkList) => {
 //   });
 // };
 
-module.exports = { mdLinks };
+module.exports = { mdLinks, fileOrDirectory, mdArchivo, getLinksFile, validateLink, mdEstadisticas }
