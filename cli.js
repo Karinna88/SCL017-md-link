@@ -5,14 +5,13 @@ const ruta = process.argv[2];
 let options1 = process.argv[3];
 let options2 = process.argv[4];
 
-console.log(options1);
-console.log(options2);
 
 let options = {
   validate: false,
   stats: false,
 };
 
+// Se analizan los parametros que ingresa el ususrio
 if (
   (options1 === "--validate" && options2 === "--stats") ||
   (options1 === "--stats" && options2 === "--validate")
@@ -30,7 +29,7 @@ if (
   options.stats = false;
 }
 
-console.log(options);
+
 mdLinks(ruta, options)
   .then((respuesta) => {
      console.log(respuesta)

@@ -48,14 +48,38 @@ Para iniciar Markdown Links debes instalar:
 npm install
 ````
 
-***
-
-## 5. Modo de Uso
-Para hacer uso de la librería ejecuta el siguiente comando en la terminal:
+2. instalar la librería con el siguiente comando en la terminal:
+```
+npm i karinna88-md-links
 ```
 
-| Opciones          | Comando                |
-| ----------------- | ----------------------- |
-| Estatus           | --stats                 |
-| Validar           | --validate              |
-| Estatus y validar | --validate--stats       |
+3. También debes instalar las siguientes librerías anexas:
+```
+$ npm install node-fetch
+```
+
+## 5. Modo de uso
+
+Para hacer uso de la librería ejecuta el siguiente comando en la terminal:
+
+En caso de ser un archivo .md
+
+```
+md-limk tuarchivo.md
+```
+En caso de ser una carpeta
+
+```
+md-limks carpeta/tuarchivo.md
+```
+
+***
+
+
+```
+
+| Opciones              | Comando                 |
+| -----------------     | ----------------------- |
+| Estadistica           | --stats                 |
+| Validar               | --validate              |
+| Estadistica y validar | --validate--stats       |

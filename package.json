@@ -17,7 +17,7 @@
     "eslint": "^7.32.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",

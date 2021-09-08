@@ -1,3 +1,4 @@
+const { clear } = require("console");
 const fs = require("fs");
 const fetch = require("node-fetch");
 const ruta = process.argv[2];
@@ -31,7 +32,7 @@ const mdLinks = (path, options) => {
             });
           });
         }
-        // por defecto es false
+        // por defecto es false / solo retorna los links
         if (options.validate === false && options.stats === false){
           resolve(respuestaLink);
         }
@@ -53,7 +54,7 @@ const fileOrDirectory = (path) => {
           resolve(mdArchivo(path));
         }
         if (stats.isDirectory()) {
-          resolve("es un directorio");
+          resolve("es un directorio"); //*Pendiente
         }
       }
     });
